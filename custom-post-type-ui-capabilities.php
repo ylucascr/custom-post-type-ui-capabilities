@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Custom Post Type UI Capabilities
  *
@@ -21,7 +22,8 @@
 
 namespace tw2113\cptuic;
 
-class customPostTypeUICapabilities {
+class customPostTypeUICapabilities
+{
 
 	/**
 	 * Current version.
@@ -60,10 +62,11 @@ class customPostTypeUICapabilities {
 	 *
 	 * @since 1.0.0
 	 */
-	public function __construct() {
-		$this->basename    = plugin_basename( __FILE__ );
-		$this->url         = plugin_dir_url( __FILE__ );
-		$this->path        = plugin_dir_path( __FILE__ );
+	public function __construct()
+	{
+		$this->basename    = plugin_basename(__FILE__);
+		$this->url         = plugin_dir_url(__FILE__);
+		$this->path        = plugin_dir_path(__FILE__);
 	}
 
 	/**
@@ -71,14 +74,15 @@ class customPostTypeUICapabilities {
 	 *
 	 * @since 1.0.0
 	 */
-	public function do_hooks() {
+	public function do_hooks()
+	{
 
-		if ( ! $this->meets_requirements() ) {
-			add_action( 'admin_notices', array( $this, 'requirements_not_met_notice' ) );
+		if (!$this->meets_requirements()) {
+			add_action('admin_notices', array($this, 'requirements_not_met_notice'));
 			return;
 		}
 
-		add_action( 'cptui_loaded', array( $this, 'includes' ) );
+		add_action('cptui_loaded', array($this, 'includes'));
 	}
 
 	/**
@@ -86,8 +90,8 @@ class customPostTypeUICapabilities {
 	 *
 	 * @since 1.0.0
 	 */
-	public function includes() {
-		include $this->path . 'inc/post-type-hooks.php';
+	public function includes()
+	{
 		include $this->path . 'inc/taxonomy-hooks.php';
 		include $this->path . 'inc/helpers.php';
 	}
@@ -99,10 +103,11 @@ class customPostTypeUICapabilities {
 	 *
 	 * @return boolean $value True if requirements are met.
 	 */
-	public static function meets_requirements() {
+	public static function meets_requirements()
+	{
 
 		// Do checks for required classes / functions.
-		if ( ! function_exists( 'cptui_create_custom_post_types' ) ) {
+		if (!function_exists('cptui_create_custom_post_types')) {
 			return false;
 		}
 		return true;
@@ -113,18 +118,20 @@ class customPostTypeUICapabilities {
 	 *
 	 * @since 1.0.0
 	 */
-	public function requirements_not_met_notice() {
+	public function requirements_not_met_notice()
+	{
 		// Output our error.
-		$error_text = esc_html__( 'Custom Post Type UI Capabilities requires Custom Post Type UI to be active. Please make sure that requirement is met to activate Custom Post Type UI Capabilities.', 'custom-post-type-ui-capabilities' );
+		$error_text = esc_html__('Custom Post Type UI Capabilities requires Custom Post Type UI to be active. Please make sure that requirement is met to activate Custom Post Type UI Capabilities.', 'custom-post-type-ui-capabilities');
 
 		echo '<div id="message" class="error">';
-		echo '<p>' . esc_attr( $error_text ) . '</p>';
+		echo '<p>' . esc_attr($error_text) . '</p>';
 		echo '</div>';
 	}
 }
 
-function load() {
+function load()
+{
 	$cptuic = new customPostTypeUICapabilities();
 	$cptuic->do_hooks();
 }
-add_action( 'plugins_loaded', __NAMESPACE__ . '\load', 8 );
+add_action('plugins_loaded', __NAMESPACE__ . '\load', 8);
